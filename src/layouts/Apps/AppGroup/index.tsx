@@ -34,6 +34,8 @@ const App = ({
 }: AppSectionProps): JSX.Element => {
   const { t } = useTranslation()
 
+  if (!apps.length) return <></>
+
   return (
     <Block backgroundColor="none" title={showTitle ? title : undefined}>
       <Group>

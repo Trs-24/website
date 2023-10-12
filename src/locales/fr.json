@@ -1,7 +1,9 @@
 {
   "apps": {
     "view_documentation": "Consulter la documentation",
-    "visit_website": "Accéder au site de l'éditeur"
+    "visit_website": "Accéder au site de l'éditeur",
+    "no_results": "Aucun résultat",
+    "search_input_placeholder": "Recherche..."
   },
   "blog": {
     "hero": {

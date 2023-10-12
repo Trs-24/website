@@ -1,7 +1,9 @@
 {
   "apps": {
     "view_documentation": "View documentation",
-    "visit_website": "Open editor website"
+    "visit_website": "Open editor website",
+    "no_results": "No results",
+    "search_input_placeholder": "Search..."
   },
   "blog": {
     "hero": {

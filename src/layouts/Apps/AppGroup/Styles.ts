@@ -28,6 +28,8 @@ export const AppLogo = styled.div`
 export const AppLogoImage = styled(Image)`
   max-height: 100%;
   object-fit: contain;
+  width: auto;
+  height: auto;
 `
 
 export const AppDocumentation = styled.div`
