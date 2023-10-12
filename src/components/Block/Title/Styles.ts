@@ -8,7 +8,6 @@ export const StyledTitle = styled.h3<{
   $horizontalAlign: HorizontalAlign
   $verticalSpacing?: VerticalSpacing
 }>`
-  margin-bottom: 2.5rem;
   position: relative;
 
   color: ${({ $backgroundColor }) => titleColorMap[$backgroundColor]};
@@ -17,8 +16,14 @@ export const StyledTitle = styled.h3<{
   font-size: ${fontSizes._42};
   line-height: ${lineHeights.compact};
   text-align: ${({ $horizontalAlign }) => ($horizontalAlign === "left" ? "left" : "center")};
-  ${({ $verticalSpacing }) =>
-    $verticalSpacing && `margin: ${$verticalSpacing === "small" ? "2.5rem" : sizes.blockVerticalPadding} 0`};
+
+  ${({ $verticalSpacing }) => {
+    if ($verticalSpacing) {
+      return `margin: ${$verticalSpacing === "small" ? "2.5rem" : sizes.blockVerticalPadding} 0`
+    }
+
+    return "margin-bottom: 2.5rem;"
+  }}
 
   &::after {
     content: "";

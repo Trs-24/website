@@ -23,57 +23,30 @@ export const StyledNav = styled.div<{ $isSticky: boolean; $isMobile: boolean }>`
     `}
 `
 
-export const SearchInputWrapper = styled.div`
+export const ListMobile = styled.ul`
   display: flex;
+  flex-direction: column;
   justify-content: center;
-
-  padding-top: 2.5rem;
 `
 
-export const StyledSearchInput = styled.input`
-  max-width: 25rem;
-  width: 95%;
-  height: 2rem;
-  padding: 1rem;
-  border: 2px solid ${colors.textMedium};
-  border-radius: 100rem;
-
-  &:focus {
-    outline: none;
-  }
-`
-
-export const List = styled.ul`
+export const ListDesktop = styled.ul`
   ${mixin.container};
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
 `
 
-export const VerticalList = styled.ul`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-`
-
-export const Item = styled.li<{ $isSticky: boolean; $isMobile: boolean; $isActive?: boolean }>`
-  ${({ $isSticky, $isMobile }) => !$isMobile && mixin.dotSeparatedList("0.5rem", $isSticky ? colors.white : undefined)}
+export const ItemMobile = styled.li<{ $isSticky: boolean; $isActive?: boolean }>`
   line-height: ${({ $isActive }) => ($isActive ? 4 : 2)}rem;
+  transition: all 0.3s linear;
 
-  ${(props) =>
-    props.$isMobile &&
-    css`
-      display: flex;
-      align-items: center;
-      padding: 0 2rem;
-      justify-content: space-between;
-      justify-content: space-between;
-      width: 100%;
-    `}
+  display: flex;
+  align-items: center;
+  padding: 0 2rem;
+  justify-content: space-between;
+  width: 100%;
 
   ${(props) => {
-    if (!props.$isMobile) return
-
     if (props.$isSticky && props.$isActive) {
       return `
         background-color: ${colors.white};
@@ -82,18 +55,21 @@ export const Item = styled.li<{ $isSticky: boolean; $isMobile: boolean; $isActiv
       `
     } else if (props.$isSticky && !props.$isActive) {
       return `
-        background-color: ${colors.backgroundDark};
+        background-color: ${colors.primary};
       `
     }
   }}
 `
 
-export const StyledLink = styled(Link)<{ $isActive: boolean; $isSticky: boolean; $isMobile: boolean }>`
+export const ItemDesktop = styled.li<{ $isSticky: boolean; $isActive?: boolean }>`
+  ${({ $isSticky }) => mixin.dotSeparatedList("0.5rem", $isSticky ? colors.white : undefined)}
+  line-height: 2rem;
+`
+
+export const StyledLinkMobile = styled(Link)<{ $isActive: boolean; $isSticky: boolean }>`
   color: ${({ $isActive, $isSticky }) => ($isSticky ? colors.white : $isActive ? colors.primary : colors.textDark)};
 
   ${(props) => {
-    if (!props.$isMobile) return
-
     if (props.$isSticky && props.$isActive) {
       return `color: ${colors.textDark};`
     } else if (props.$isSticky && !props.$isActive) {
@@ -101,17 +77,11 @@ export const StyledLink = styled(Link)<{ $isActive: boolean; $isSticky: boolean;
     }
   }}
 
-  ${(props) =>
-    props.$isMobile
-      ? `font-weight: ${props.$isActive ? "bold" : "regular"}`
-      : `text-decoration: ${props.$isActive ? "underline" : "none"};`}
+  ${(props) => `font-weight: ${props.$isActive ? "bold" : "regular"}`}
 `
 
-export const ChevronIconWrapper = styled.div<{
-  $isFlipped: boolean
-}>`
-  transform: ${({ $isFlipped }) => ($isFlipped ? "rotate(180deg)" : "rotate(0deg)")};
-  transition: transform 0.2s ease;
-  display: grid;
-  place-items: center;
+export const StyledLinkDesktop = styled(Link)<{ $isActive: boolean; $isSticky: boolean }>`
+  color: ${({ $isActive, $isSticky }) => ($isSticky ? colors.white : $isActive ? colors.primary : colors.textDark)};
+
+  ${(props) => `text-decoration: ${props.$isActive ? "underline" : "none"};`}
 `

@@ -39,13 +39,14 @@ export const MenuTitle = styled.h5`
   }
 `
 
-export const ArrowIcon = styled(Icon).attrs({ size: iconSizes._32 })`
+export const ArrowIcon = styled(Icon).attrs({ size: iconSizes._32 })<{
+  $shouldIgnoreMediaQuery?: boolean
+}>`
   color: ${colors.primary};
   cursor: pointer;
 
-  @media (min-width: ${breakpoints.blogStickyMenu}) {
-    display: none;
-  }
+  ${(props) =>
+    !props.$shouldIgnoreMediaQuery && `@media (min-width: ${breakpoints.blogStickyMenu}) { display: none; }`};
 `
 
 export const MenuList = styled.div<{ $isSelected: boolean }>`

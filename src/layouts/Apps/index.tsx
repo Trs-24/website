@@ -12,7 +12,7 @@ import AppGroup from "./AppGroup"
 import Developer from "./Developer"
 import Hero from "./Hero"
 import Nav from "./Nav"
-import { SearchInputWrapper, StyledSearchInput } from "./Nav/Styles"
+import { SearchInputWrapper, StyledSearchInput } from "./Styles"
 
 interface AppsProps {
   language: Language
@@ -32,12 +32,24 @@ const Apps = ({ language, yaml, logoImages, categoryTitle }: AppsProps): JSX.Ele
 
   const deferredSearchText = React.useDeferredValue(searchText)
 
-  const shouldShowNoResults = React.useMemo(() => {
-    return !categories.some(
-      ({ apps }) =>
-        apps.find((app) => app.description.toLowerCase().includes(deferredSearchText.toLowerCase())) !== undefined,
-    )
-  }, [deferredSearchText, categories])
+  const filteredCategories = React.useMemo(
+    () =>
+      categories.reduce<typeof categories>((filteredCategories, currentCategory) => {
+        const filteredApps = currentCategory.apps.filter((app) =>
+          app.description.toLowerCase().includes(deferredSearchText.toLowerCase()),
+        )
+
+        if (filteredApps.length > 0) {
+          filteredCategories.push({
+            ...currentCategory,
+            apps: filteredApps,
+          })
+        }
+
+        return filteredCategories
+      }, []),
+    [deferredSearchText, categories],
+  )
 
   const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     setSearchText(e.target.value.trimStart())
@@ -58,23 +70,19 @@ const Apps = ({ language, yaml, logoImages, categoryTitle }: AppsProps): JSX.Ele
         />
       </SearchInputWrapper>
 
-      {shouldShowNoResults ? (
+      {filteredCategories.length === 0 ? (
         <Title backgroundColor="none" horizontalAlign="center" verticalSpacing="large">
           {t("apps.no_results")}
         </Title>
       ) : (
-        categories.map(({ title, apps, has_suggest_app }, idx) => {
+        filteredCategories.map(({ title, apps, has_suggest_app }, idx) => {
           if (!categoryTitle || categoryTitle === title) {
-            const filteredApps = apps.filter((app) => {
-              return app.description.toLowerCase().includes(deferredSearchText.toLowerCase())
-            })
-
             return (
               <AppGroup
                 key={idx}
                 title={title}
                 showTitle={!categoryTitle}
-                apps={filteredApps}
+                apps={apps}
                 logoImages={logoImages}
                 additionalSections={additional_sections}
                 hasSuggestApp={has_suggest_app}
